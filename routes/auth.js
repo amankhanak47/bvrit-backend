@@ -24,7 +24,7 @@ router.post(
     body("section", "please enter section").isLength({ min: 1 }),
     body("mobile_no", "Enter a valid mobile-no").isLength({ min: 5 }),
     body("password").isLength({ min: 3 }),
-    body("student_img")
+    // body("student_img")
   ],
   
   async (req, res) => {
@@ -47,7 +47,7 @@ router.post(
         mobile_no: req.body.mobile_no,
         roll_no: req.body.roll_no,
         password: secpass,
-        student_img: req.body.student_img[0].base64,
+        // student_img: req.body.student_img[0].base64,
       });
 
       const data = {
@@ -60,7 +60,7 @@ router.post(
       res.json({ sucess, authtoken });
     } catch (error) {
       console.error(error.message);
-      res.status(500).send("user with this credentials already exists");
+      res.status(500).send("credentials already regidterd");
     }
   }
 );
@@ -139,7 +139,7 @@ router.post(
     body("personal_email", "Enter a valid personal-email").isEmail(),
     body("mobile_no", "Enter a valid mobile-no").isLength({ min: 9 }),
     body("password").isLength({ min: 3 }),
-     body("faculty_img")
+    //  body("faculty_img")
   ],
   async (req, res) => {
     //if there are errors, return bad request and error
@@ -160,7 +160,7 @@ router.post(
         personal_email: req.body.personal_email,
         mobile_no: req.body.mobile_no,
         password: secpass,
-        faculty_img: req.body.faculty_img[0].base64,
+        // faculty_img: req.body.faculty_img[0].base64,
       });
 
       const data = {
@@ -174,7 +174,7 @@ router.post(
       res.json({ sucess, authtoken });
     } catch (error) {
       console.error(error);
-      res.status(500).send("some error occured");
+      res.status(500).send("credentials already regidterd");
     }
   }
 );
@@ -253,7 +253,7 @@ router.post(
     body("personal_email", "Enter a valid personal-email").isEmail(),
     body("mobile_no", "Enter a valid mobile-no").isLength({ min: 9 }),
     body("password").isLength({ min: 3 }),
-    body("hod_img")
+    // body("hod_img")
   ],
   async (req, res) => {
     //if there are errors, return bad request and error
@@ -275,7 +275,7 @@ router.post(
         personal_email: req.body.personal_email,
         mobile_no: req.body.mobile_no,
         password: secpass,
-        hod_img: req.body.hod_img[0].base64,
+        // hod_img: req.body.hod_img[0].base64,
       });
 
       const data = {
@@ -288,7 +288,7 @@ router.post(
       res.json({ sucess, authtoken });
     } catch (error) {
       console.error(error.message);
-      res.status(500).send("some error occured");
+      res.status(500).send("cresentials already registered");
     }
   }
 );

@@ -9,7 +9,7 @@ const StudentSchema = new Schema({
   roll_no: {
     type: String,
     required: true,
-    unique: true,
+   
   },
   college_email: {
     type: String,
@@ -19,7 +19,7 @@ const StudentSchema = new Schema({
   mobile_no: {
     type: Number,
     required: true,
-    unique: true,
+   
   },
   section: {
     type: String,
@@ -33,7 +33,7 @@ const StudentSchema = new Schema({
   personal_email: {
     type: String,
     required: true,
-    unique: true,
+    
     },
     password: {
         type: String,

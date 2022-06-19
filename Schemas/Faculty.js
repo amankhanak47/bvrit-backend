@@ -15,13 +15,13 @@ const FacultySchema = new Schema({
   mobile_no: {
     type: Number,
     required: true,
-    unique: true,
+    
   },
 
   personal_email: {
     type: String,
     required: true,
-    unique: true,
+  
     },
    password: {
         type: String,
