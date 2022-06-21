@@ -85,6 +85,7 @@ router.post(
     const { college_email, password } = req.body;
     try {
       let user = await student.findOne({ college_email });
+      // console.log(req.params.id)
       
       if (!user) {
         sucess = false;
@@ -109,8 +110,8 @@ router.post(
 
       res.json({ sucess, authtoken });
     } catch (error) {
-      console.error(error.message);
-      res.status(500).send("internal server error occured");
+      console.error(error);
+      res.status(500).send({error:'asd'});
     }
   }
 );
@@ -128,6 +129,54 @@ router.post("/student/getinfo", fetchstudent, async (req, res) => {
     res.status(500).send("internal server error occured");
   }
 });
+
+//student change password
+
+router.put('/student/changepassword', fetchstudent, async (req, res) => {
+    const { password } = req.body;
+    try {
+        // Create a newNote object
+      const updatedstudent = {};
+       const salt = await bcrypt.genSalt(10);
+      secpass = await bcrypt.hash(req.body.password, salt);
+        if (password) { updatedstudent.password = secpass };
+
+      let changedstudent = await student.findById(req.user.id);
+      console.log(changedstudent)
+        if (!changedstudent) { return res.status(404).send("Not Found") }
+        changedstudent = await student.findByIdAndUpdate(req.user.id, { $set: updatedstudent }, { new: true })
+        res.json({ sucess:"true" });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Internal Server Error");
+    }
+})
+
+
+// student forgot password
+
+router.put('/student/forgotpassword', async (req, res) => {
+    const {college_email, password } = req.body;
+    try {
+        // Create a newNote object
+      const fogottedpassword = {};
+      //  const salt = await bcrypt.genSalt(10);
+      // secpass = await bcrypt.hash(req.body.password, salt);
+        if (password) { fogottedpassword.password = password };
+
+      let forgottedstudent = await student.findOne({ college_email });
+      // let studentid=await student.findOne({ _id});
+      
+        if (!forgottedstudent) { return res.status(404).send("Not Found") }
+        forgottedstudent = await student.findByIdAndUpdate(forgottedstudent._id, { $set: fogottedpassword }, { new: true })
+        res.json({ sucess:"true" });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Internal Server Error");
+    }
+})
+
+
 
 //faculty
 //faculty signup
