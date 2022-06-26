@@ -21,6 +21,10 @@ const StudentSchema = new Schema({
     required: true,
    
   },
+ year: {
+    type: String,
+    required: true,
+  },
   section: {
     type: String,
     required: true,

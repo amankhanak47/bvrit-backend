@@ -22,6 +22,7 @@ router.post(
     body("college_email", "Enter a valid college-email").isEmail(),
     body("personal_email", "Enter a valid personal-email").isEmail(),
     body("section", "please enter section").isLength({ min: 1 }),
+    body("year", "please enter year").isLength({ min: 1 }),
     body("mobile_no", "Enter a valid mobile-no").isLength({ min: 5 }),
     body("password").isLength({ min: 3 }),
     // body("student_img")
@@ -47,6 +48,7 @@ router.post(
         mobile_no: req.body.mobile_no,
         roll_no: req.body.roll_no,
         password: secpass,
+        year:req.body.year
         // student_img: req.body.student_img[0].base64,
       });
 
@@ -98,7 +100,7 @@ router.post(
         sucess = false;
         return res
           .status(400)
-          .json({ sucess: sucess, errors: "enter correct login credentials" });
+          .json({ sucess: sucess, errors: "enter correct login password" });
       }
       const data = {
         user: {
@@ -107,11 +109,12 @@ router.post(
       };
       const authtoken = jwt.sign(data, JWT_SECRET);
       sucess = true;
+      console.log(user.id)
 
       res.json({ sucess, authtoken });
     } catch (error) {
       console.error(error);
-      res.status(500).send({error:'asd'});
+      res.status(500).send({error:'internal servr error'});
     }
   }
 );
@@ -142,7 +145,7 @@ router.put('/student/changepassword', fetchstudent, async (req, res) => {
         if (password) { updatedstudent.password = secpass };
 
       let changedstudent = await student.findById(req.user.id);
-      console.log(changedstudent)
+      console.log(req.user.id)
         if (!changedstudent) { return res.status(404).send("Not Found") }
         changedstudent = await student.findByIdAndUpdate(req.user.id, { $set: updatedstudent }, { new: true })
         res.json({ sucess:"true" });
@@ -160,15 +163,17 @@ router.put('/student/forgotpassword', async (req, res) => {
     try {
         // Create a newNote object
       const fogottedpassword = {};
-      //  const salt = await bcrypt.genSalt(10);
-      // secpass = await bcrypt.hash(req.body.password, salt);
-        if (password) { fogottedpassword.password = password };
+       const salt = await bcrypt.genSalt(10);
+      secpass = await bcrypt.hash(req.body.password, salt);
+      if (password) { fogottedpassword.password = secpass };
+      if(college_email){fogottedpassword.college_email = college_email}
 
       let forgottedstudent = await student.findOne({ college_email });
       // let studentid=await student.findOne({ _id});
+      // console.log((forgottedstudent.password))
       
         if (!forgottedstudent) { return res.status(404).send("Not Found") }
-        forgottedstudent = await student.findByIdAndUpdate(forgottedstudent._id, { $set: fogottedpassword }, { new: true })
+        forgottedstudent = await student.findByIdAndUpdate(forgottedstudent.id, { $set: fogottedpassword }, { new: true })
         res.json({ sucess:"true" });
     } catch (error) {
         console.error(error.message);
@@ -290,6 +295,30 @@ router.post("/faculty/getinfo", fetchfaculty, async (req, res) => {
     res.status(500).send("internal server error occured");
   }
 });
+
+
+//student change password
+
+router.put('/faculty/changepassword', fetchfaculty, async (req, res) => {
+    const { password } = req.body;
+    try {
+        // Create a newNote object
+      const updatedfaculty = {};
+       const salt = await bcrypt.genSalt(10);
+      secpass = await bcrypt.hash(req.body.password, salt);
+        if (password) { updatedfaculty.password = secpass };
+
+      let changedfaculty = await faculty.findById(req.user.id);
+      console.log(req.user.id)
+        if (!changedfaculty) { return res.status(404).send("Not Found") }
+        changedfaculty = await faculty.findByIdAndUpdate(req.user.id, { $set: updatedfaculty }, { new: true })
+        res.json({ sucess:"true" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal Server Error");
+    }
+})
+
 
 
 //hod
