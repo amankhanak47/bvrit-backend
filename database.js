@@ -1,5 +1,5 @@
 const mongoose=require("mongoose");
-const mongouri="mongodb://localhost:27017"
+const mongouri="mongodb+srv://bvrit-portal:AQPZMWO4tQAvMe9L@cluster0.dmnsn.mongodb.net/bvrit?retryWrites=true&w=majority"
 //O13AdqObVEYuYHOU
 
 const connectToMongo=()=>{
