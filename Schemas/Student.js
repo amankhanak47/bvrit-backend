@@ -29,11 +29,7 @@ const StudentSchema = new Schema({
     type: String,
     required: true,
   },
-  student_img:
-    {
-        type:String,
-        // contentType: String
-    },
+
   personal_email: {
     type: String,
     required: true,

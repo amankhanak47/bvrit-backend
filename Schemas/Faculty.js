@@ -27,10 +27,7 @@ const FacultySchema = new Schema({
         type: String,
         required:true
   },
-  faculty_img:
-    {
-        type:String,
-    },
+
 });
 
 module.exports = mongoose.model("faculty", FacultySchema);

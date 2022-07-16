@@ -4,7 +4,6 @@ const express = require('express')
 var cors = require('cors')
 
 
-
 connectToMongo();
 
 const app = express();

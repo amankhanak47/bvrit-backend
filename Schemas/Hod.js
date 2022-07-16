@@ -27,10 +27,7 @@ const HodSchema = new Schema({
         type: String,
         required:true
   },
-   hod_img:
-    {
-        type:String,
-    },
+
 });
 
 module.exports = mongoose.model("hod", HodSchema);
